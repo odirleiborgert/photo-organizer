@@ -6,24 +6,59 @@ namespace PhotoOrganizer
 {
     class Program
     {
+
+        public static string PATH_FROM = @"C:\Users\odirl\Downloads\Fotos Cel Karlla";
+        public static string PATH_TO = @"C:\www\photo-organizer\PhotoOrganizer\PhotoOrganizer\photos";
+
         static void Main(string[] args)
         {
+            RunProcessPath(PATH_FROM);
+        }
 
-            string root = @"C:\www\photo-organizer\PhotoOrganizer\PhotoOrganizer\photos\";
 
-            DirectoryInfo info = new DirectoryInfo(root);
+        public static bool RunProcessPath(string path_from)
+        {
+
+            path_from = path_from + @"\";
+
+            RunProcessImages(path_from);
+
+            DirectoryInfo info = new DirectoryInfo(path_from);
+
+            var paths = info.GetDirectories().OrderBy(p => p.CreationTime).ToArray();
+
+            if (paths.Length == 0)
+            {
+                return false;
+            }
+
+            foreach (var path in paths)
+            {
+                Console.WriteLine($"Path {path_from}{path.Name} .");
+                RunProcessPath(path_from + path.Name);
+            }
+
+            return true;
+
+        }
+
+
+
+        public static void RunProcessImages(string path_from)
+        {
+
+            DirectoryInfo info = new DirectoryInfo(path_from);
 
             FileInfo[] files = info.GetFiles().OrderBy(p => p.CreationTime).ToArray();
 
             int count = 0;
 
-            foreach (FileInfo file in files)
+            foreach (var file in files)
             {
-
 
                 DateTime date = DateTime.Parse(file.LastWriteTime.ToString());
 
-                string pathYear = root + date.Year.ToString();
+                string pathYear = PATH_TO + "/" + date.Year.ToString();
                 string pathMonth = pathYear + "/" + date.Month.ToString();
                 string pathDay = date.Day.ToString();
 
@@ -57,5 +92,7 @@ namespace PhotoOrganizer
             }
 
         }
+
+
     }
 }
