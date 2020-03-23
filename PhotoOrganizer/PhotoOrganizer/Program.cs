@@ -7,8 +7,9 @@ namespace PhotoOrganizer
     class Program
     {
 
-        public static string PATH_FROM = @"C:\Users\odirl\Downloads\Fotos Cel Karlla";
-        public static string PATH_TO = @"C:\www\photo-organizer\PhotoOrganizer\PhotoOrganizer\photos";
+        public static string PATH_FROM = @"C:\Users\odirl\Downloads\Fotos\SHD500_ULTIMAS";
+        public static string PATH_TO = @"C:\www\photo-organizer\PhotoOrganizer\PhotoOrganizer\";
+        public static string PATH_TYPE = "videos";
 
         static void Main(string[] args)
         {
@@ -58,7 +59,7 @@ namespace PhotoOrganizer
 
                 DateTime date = DateTime.Parse(file.LastWriteTime.ToString());
 
-                string pathYear = PATH_TO + "/" + date.Year.ToString();
+                string pathYear = PATH_TO + PATH_TYPE + "/" + date.Year.ToString();
                 string pathMonth = pathYear + "/" + date.Month.ToString();
                 string pathDay = date.Day.ToString();
 
@@ -80,12 +81,24 @@ namespace PhotoOrganizer
                     newFile = pathMonth + "/" + pathDay + "-" + count.ToString("D4") + file.Extension.ToLower();
                 }
 
-                if (file.Extension.ToUpper().Contains("JPG") || file.Extension.ToUpper().Contains("JPEG"))
+                if (PATH_TYPE == "photos")
                 {
-                    File.Move(file.FullName, newFile);
+                    if (file.Extension.ToUpper().Contains("JPG") || file.Extension.ToUpper().Contains("JPEG"))
+                    {
+                        File.Move(file.FullName, newFile);
+                        Console.WriteLine($"Foto {file.Name} copiada com sucesso.");
+                    }
                 }
 
-                Console.WriteLine($"Foto {file.Name} copiada com sucesso.");
+                if (PATH_TYPE == "videos")
+                {
+                    if (file.Extension.ToUpper().Contains("MOV") || file.Extension.ToUpper().Contains("MP4"))
+                    {
+                        File.Move(file.FullName, newFile);
+                        Console.WriteLine($"Vídeos {file.Name} copiada com sucesso.");
+                    }
+                }
+
 
                 count = 0;
 
