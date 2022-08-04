@@ -7,9 +7,9 @@ namespace PhotoOrganizer
     class Program
     {
 
-        public static string PATH_FROM = @"C:\Users\odirl\Downloads\Fotos\SHD500_ULTIMAS";
+        public static string PATH_FROM = @"C:\Users\xyz";
         public static string PATH_TO = @"C:\www\photo-organizer\PhotoOrganizer\PhotoOrganizer\";
-        public static string PATH_TYPE = "videos";
+        public static string PATH_TYPE = "photos";
 
         static void Main(string[] args)
         {
